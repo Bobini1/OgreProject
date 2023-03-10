@@ -1,0 +1,10 @@
+build/
+CMakeUserPresets.json
+conaninfo.txt
+conanbuildinfo.txt
+conan.lock
+conan/
+graph_info.json
+.idea/
+.vscode/
+.vs/
