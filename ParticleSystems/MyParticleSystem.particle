@@ -1,0 +1,54 @@
+particle_system ThrusterFire
+{
+	material        	Examples/WaterStream
+	particle_width  	1
+	particle_height 	1
+	cull_each       	true
+	quota           	500
+	billboard_type  	point
+	sorted				true
+    texture_sheet_size  3 5
+
+	emitter Point
+	{
+		position 0 -2 0
+		angle 10
+		emission_rate 60
+		time_to_live 1
+		direction 0 -1 0
+		velocity_min 10
+		velocity_max 100
+	}
+
+	affector LinearForce
+    {
+        force_vector 0 1 0
+    }
+
+	affector TextureAnimator
+	{
+		texcoord_count 15
+		duration 4
+		random_offset true
+	}
+
+	affector ColourImage
+	{
+		image clouds.jpg
+	}
+
+   	affector Scaler
+   	{
+       	rate 2
+   	}
+
+   	// Deflector planes bounce the particles of the given plane.
+    affector DeflectorPlane {
+    	//The point of the plane, note: the plane is infinite
+    	plane_point 	0 0 0
+    	// The normal vector of the plane, the direction of the particles will be mirror around this normal.
+    	plane_normal 	0 1 0
+    	// The amount of velocity the particles retain after the collision.
+    	bounce 		0.05
+    }
+}

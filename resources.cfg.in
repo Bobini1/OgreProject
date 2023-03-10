@@ -1,0 +1,66 @@
+# Ogre Core Resources
+[OgreInternal]
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/Main
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/RTShaderLib/GLSL
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/RTShaderLib/HLSL_Cg
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/Terrain/
+
+# Resources required by the sample browser and most samples.
+[Essential]
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/SdkTrays.zip
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/profiler.zip
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/thumbnails
+
+# Common sample resources needed by many of the samples.
+# Rarely used resources should be separately loaded by the
+# samples which require them.
+[General]
+# PBR media must come before the scripts that reference it
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/PBR
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/PBR/filament
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/textures/PBR
+
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/programs/GLSL
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/programs/GLSL120
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/programs/GLSL150
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/programs/GLSL400
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/programs/GLSLES
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/programs/SPIRV
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/programs/Cg
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/programs/HLSL
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/programs/HLSL_Cg
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/scripts
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/textures
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/textures/terrain
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/models
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/particle
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/DeferredShadingMedia
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/DeferredShadingMedia/DeferredShading/post
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/PCZAppMedia
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/scripts/SSAO
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/materials/textures/SSAO
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/volumeTerrain
+FileSystem=${OGRE_ROOT}/share/OGRE/Media/CSMShadows
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/cubemap.zip
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/cubemapsJS.zip
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/dragon.zip
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/fresneldemo.zip
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/ogredance.zip
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/Sinbad.zip
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/skybox.zip
+Zip=${OGRE_ROOT}/share/OGRE/Media/volumeTerrain/volumeTerrainBig.zip
+
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/DamagedHelmet.zip
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/filament_shaders.zip
+
+FileSystem=${CMAKE_SOURCE_DIR}/LabFiles/Models
+FileSystem=${CMAKE_SOURCE_DIR}/LabFiles/Materials
+FileSystem=${CMAKE_SOURCE_DIR}/ParticleSystems
+
+[BSPWorld]
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/oa_rpg3dm2.pk3
+Zip=${OGRE_ROOT}/share/OGRE/Media/packs/ogretestmap.zip
+
+# Materials for visual tests
+[Tests]
+FileSystem=${OGRE_ROOT}/Tests/Media
