@@ -2,7 +2,7 @@
 using namespace Ogre;
 using namespace OgreBites;
 // ROAMING CAMERA
-// Simple camera that cgetan be moved around the scene using the mouse and keyboard (WASD)
+// Simple camera that can be moved around the scene using the mouse and keyboard (WASD)
 // Activate the camera motion mode by holding down the right mouse button
 class RoamingCamera
 {
@@ -20,9 +20,6 @@ public:
 	// delta_time: Time since last update in seconds
 	// state: Keyboard state, retrieved using SDL_GetKeyboardState
 	void update(Ogre::Real delta_time, const Uint8* keyboard_state);
-    void update(Ogre::Real delta_time, Ogre::Vector2 camera_movement, Ogre::Vector3 player_position);
-
-    Ogre::Vector2 getDirection() const;
 private:
 	SceneManager* scene_manager_;	// The main scene manager
 	Camera* camera_;                // The camera itself
@@ -31,6 +28,4 @@ private:
 
 	float movement_speed_;          // How fast the camera moves when WASD keys are pressed
 	float rotation_speed_;          // How fast the camera rotates when mouse is moved
-    float camera_angle_{};
-    Real zoom{};
 };

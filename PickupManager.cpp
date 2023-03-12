@@ -72,46 +72,42 @@ void PickupManager::addPickupObject(const char *mesh_file_name) {
     pickup_objects.push_back(pickupObject);
 }
 
-void PickupManager::Update(Ogre::Real delta_time, const Uint8* state)
-{
+void PickupManager::Update(Ogre::Real delta_time, const Uint8 *state) {
     // Update all the managed pickup objects, and delete them if they finished the effect
     for (auto i = pickup_objects.begin(); i != pickup_objects.end();) {
         bool erased = false;
-        IPickupObject* pickupObject = *i;
+        IPickupObject *pickupObject = *i;
 
         pickupObject->update(delta_time);
 
-        // Check for collision with a game object that has not yet been picked up
-        if (!pickupObject->isPickedUp() && pickupObject->collidesWith(player_node_, 6.0))
-        {
-            pickupObject->runPickupEffects();
-        }
+        // TODO: Check for collision with a game object that has not yet been picked up
+        // Basically write the if clause.
+        if (!pickupObject->isPickedUp() &&
+            pickupObject->collidesWith(player_node_, 5.0f)) {
+            // BONUS
+            // TODO: Make the scene node of the cube a child of the player's scene node, and center it on the player
 
+            scene_manager_->getRootSceneNode()->removeChild(pickupObject->getSceneNode());
+            player_node_->addChild(pickupObject->getSceneNode());
+            pickupObject->getSceneNode()->setPosition(0, 0, 0);
+            pickupObject->runPickupEffect();
+            addPickupObject("Suzanne.mesh");
+        }
         if (pickupObject->isPickedUp())
         {
-            // check whether all effects are finished. If at least one is running the
-            // && operation returns false and we don't dispose of the object
-            std::list<IPickupEffect*> effects = pickupObject->getPickupEffects();
-            bool allEffectsFinished = true;
-            for (auto j = effects.begin(); j != effects.end();)
+            // If the effect is finished we can dispose of the object
+            if (pickupObject->getPickupEffect()->isFinished())
             {
-                IPickupEffect* pickupEffect = *j;
-                allEffectsFinished = allEffectsFinished && pickupEffect->isFinished();
-                if (!allEffectsFinished) break;
-                ++j;
-            }
+                // TODO: If the effect is finished delete the object
+                // hint: https://ogrecave.github.io/ogre/api/1.12/class_ogre_1_1_scene_manager.html#aea3103164ed0f27baeb67a3ae2fe429b
 
-            // If every effect is finished we can dispose of the object
-            if (allEffectsFinished)
-            {
-                pickupObject->getSceneNode()->detachAllObjects();
+                pickupObject->getSceneNode()->detachObject(pickupObject->getEntity());
                 scene_manager_->destroyEntity(pickupObject->getEntity());
-                scene_manager_->destroySceneNode(pickupObject->getSceneNode());
-                i = pickup_objects.erase(i);
+                pickup_objects.erase(i++);
                 erased = true;
+                delete pickupObject;
             }
         }
-
         // Don't increase the counter if we have deleted an item, otherwise it throws an error
         if (!erased) ++i;
     }
@@ -134,4 +130,5 @@ void PickupManager::_destroy() {
     scene_manager_ = nullptr;
     OGRE_DELETE player_node_;
     player_node_ = nullptr;
+    OGRE_DELETE &pickup_objects;
 }

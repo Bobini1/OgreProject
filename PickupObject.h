@@ -21,10 +21,10 @@ public:
 
 	SceneNode* getSceneNode() const;		                  // Returns the scene node that holds this object
 	Entity* getEntity() const;                                // Returns the Entity attached to this object
-	std::list<IPickupEffect*> getPickupEffects() const;                   // Returns the pickup effect attached to this object
+	IPickupEffect* getPickupEffect() const;                   // Returns the pickup effect attached to this object
 	bool isPickedUp();                                        // True if the pickup effect has been run
 
-	void runPickupEffects();                                   // Display a special motion effect on the game object
+	void runPickupEffect();                                   // Display a special motion effect on the game object
 	bool collidesWith(SceneNode* other_node, float distance); // True if the passed node is within distance of this object
 	void update(float delta_time) const;                      // Updates object, including any running motion effects
 
@@ -35,5 +35,5 @@ private:
 	Entity* entity_;                   // The game object model
 	
 	bool picked_up_;                   // True if the pickup effect has been run
-	std::list<IPickupEffect*> pickup_effects_;     // An interesting pickup motion effect
+	IPickupEffect* pickup_effect_;     // An interesting pickup motion effect 
 };

@@ -10,7 +10,6 @@ class PlayerAvatar {
 public:
     PlayerAvatar(Ogre::SceneManager* scene_manager, const Ogre::String& mesh_file_name);
     void Update(Ogre::Real delta_time, const Uint8* state);
-    void Update(float delta_time, Ogre::Vector2 camera_direction, Ogre::Vector2 character_movement);
 
     Ogre::SceneNode* entity_node_{};
 private:

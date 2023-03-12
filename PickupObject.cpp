@@ -1,6 +1,4 @@
 #include "PickupObject.h"
-#include "ParticleEffect.h"
-#include "sounds/FFmpegOpenAlSound.h"
 #include "SoundEffect.h"
 
 PickupObject::PickupObject(SceneManager *scene_manager, const char *mesh_file_name,
@@ -12,15 +10,20 @@ PickupObject::PickupObject(SceneManager *scene_manager, const char *mesh_file_na
     entity_node_->setPosition(position);
     entity_node_->setScale(scale);
     entity_->setCastShadows(true);
+    pickup_effect_ = nullptr;
     picked_up_ = false;
+}
+
+PickupObject::~PickupObject() {
+    delete (pickup_effect_);
 }
 
 SceneNode *PickupObject::getSceneNode() const {
     return entity_node_;
 }
 
-std::list<IPickupEffect*> PickupObject::getPickupEffects() const {
-    return pickup_effects_;
+IPickupEffect *PickupObject::getPickupEffect() const {
+    return pickup_effect_;
 }
 
 Entity *PickupObject::getEntity() const {
@@ -48,40 +51,16 @@ bool PickupObject::collidesWith(SceneNode *other_node, float distance) {
     return collision;
 }
 
-void PickupObject::runPickupEffects()
-{
+void PickupObject::runPickupEffect() {
+    // TODO: Instantiate and run the effect here (try velocity (5.0, -5, 50.0)
+    pickup_effect_ = new SoundEffect(sounds::FFmpegOpenALSound("/home/bobini/Pulpit/07 - 日溜りの街.flac"));
+    pickup_effect_->run();
+
     picked_up_ = true;
-
-    IPickupEffect* particleEffect = new ParticleEffect(scene_manager_, entity_node_);
-    pickup_effects_.push_back(particleEffect);
-    particleEffect->run();
-
-    IPickupEffect* swirlEffect = new SwirlEffect(entity_node_, Ogre::Vector3(5.0, -5, 50.0));
-    pickup_effects_.push_back(swirlEffect);
-    swirlEffect->run();
-
-    sounds::FFmpegOpenALSound sound = sounds::FFmpegOpenALSound("/home/bobini/Pulpit/07 - 日溜りの街.flac");
-    IPickupEffect* soundsEffect = new SoundEffect(std::move(sound));
-    pickup_effects_.push_back(soundsEffect);
-    soundsEffect->run();
 }
 
-void PickupObject::update(float delta_time) const
-{
-    for (auto i = pickup_effects_.begin(); i != pickup_effects_.end();)
-    {
-        IPickupEffect* pickupEffect = *i;
-        if(pickupEffect->isRunning())
-            pickupEffect->update(delta_time);
-
-        ++i;
-    }
-}
-
-PickupObject::~PickupObject()
-{
-    for (auto i = pickup_effects_.begin(); i != pickup_effects_.end();)
-    {
-        delete(*i);
+void PickupObject::update(float delta_time) const {
+    if (pickup_effect_ != nullptr) {
+        if (pickup_effect_->isRunning()) pickup_effect_->update(delta_time);
     }
 }

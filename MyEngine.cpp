@@ -5,7 +5,7 @@
 #include "MyEngine.h"
 #include "PickupManager.h"
 
-MyEngine::MyEngine() : OgreBites::ApplicationContext("OgreProject")
+MyEngine::MyEngine() : OgreBites::ApplicationContext("T-637-GEDE Lab 3")
 {
 }
 
@@ -15,7 +15,6 @@ void MyEngine::setup() {
     setupSceneManager();
     setupCamera();
     populateScene();
-    setupInputManager();
 }
 
 void MyEngine::setupSceneManager() {
@@ -83,19 +82,20 @@ void MyEngine::populateScene() {
 
 bool MyEngine::frameStarted(const Ogre::FrameEvent &evt)
 {
+    // Main "game loop" of the application
+    // Let parent handle this callback as well
     ApplicationContext::frameStarted(evt);
+    // Store the time that has passed since last time we got the callback
     const Ogre::Real delta_time = evt.timeSinceLastFrame;
+    // Check what keys of the keyboard are being pressed
     const Uint8* state = SDL_GetKeyboardState(nullptr);
 
-    if (input_manager_ != nullptr) input_manager_->update();
-    if (roaming_camera_ != nullptr)	roaming_camera_->update(delta_time, input_manager_->getCameraMovement(), player_->entity_node_->getPosition());
-    if (player_ != nullptr) player_->Update(delta_time, roaming_camera_->getDirection(), input_manager_->getCharacterMovement());
+    // Update any subsystems
+    if (player_ != nullptr) player_->Update(delta_time, state);
+    if (roaming_camera_ != nullptr) roaming_camera_->update(delta_time, state);
+
+    // Update all the managed pickup objects
     PickupManager::Update(delta_time, state);
 
-
     return true;
-}
-
-void MyEngine::setupInputManager() {
-    input_manager_ = std::make_unique<InputManager>();
 }

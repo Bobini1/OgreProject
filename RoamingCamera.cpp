@@ -13,8 +13,6 @@ RoamingCamera::RoamingCamera(SceneManager* scene_manager, RenderWindow*
 	camera_yaw_node_->setPosition(position);
 	camera_pitch_node_->lookAt(lookat_position, Ogre::Node::TransformSpace::TS_WORLD);
 
-    camera_pitch_node_->setFixedYawAxis(true);
-
 
 	Ogre::ColourValue fadeColour(0.9, 0.9, 0.9);
 
@@ -68,35 +66,4 @@ void RoamingCamera::update(Ogre::Real delta_time, const Uint8* keyboard_state)
 	Ogre::Vector3 direction = (camera_yaw_node_->getOrientation() * camera_pitch_node_->getOrientation()) * vec;
 
 	camera_yaw_node_->translate(delta_time * movement_speed_ * direction);
-}
-
-void RoamingCamera::update(Ogre::Real delta_time, const Ogre::Vector2 camera_movement, const Ogre::Vector3 player_position)
-{
-    // Update the camera angle based on the joystick axis input
-    camera_angle_ = delta_time * camera_movement.x + camera_angle_;
-
-    // Compute the right offset that allows the camera to "orbit" around the player as they rotate
-    Vector3 cameraOffset = Ogre::Vector3(30.0f * Ogre::Math::Cos(camera_angle_), 10.0f, 30.0f * Ogre::Math::Sin(camera_angle_));
-    camera_yaw_node_->setPosition(player_position + cameraOffset);
-
-    // Rotate the camera "horizontally" to match the player orientation
-    float rotX = camera_movement.x * delta_time * -1;
-    camera_yaw_node_->yaw(Ogre::Radian(rotX));
-
-    // zoom in/out
-    zoom += camera_movement.y * 100 * delta_time * -1;
-    Vector3 cameraVector = camera_yaw_node_->getPosition() - player_position;
-    cameraVector.normalise();
-    cameraVector *= zoom;
-
-    camera_yaw_node_->translate(cameraVector);
-
-    // Rotate the camera "vertically" to look at the player
-    camera_pitch_node_->lookAt(player_position, Ogre::Node::TransformSpace::TS_WORLD);
-}
-
-Ogre::Vector2 RoamingCamera::getDirection() const
-{
-    Ogre::Vector2 direction = Ogre::Vector2(Ogre::Math::Cos(camera_angle_), Ogre::Math::Sin(camera_angle_));
-    return direction.normalisedCopy();
 }

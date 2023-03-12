@@ -127,27 +127,3 @@ void PlayerAvatar::SetRunAnimationLoop() {
         StartAnimationLoop();
     }
 }
-
-void PlayerAvatar::Update(Ogre::Real delta_time, const Ogre::Vector2 camera_direction, const Ogre::Vector2 character_movement)
-{
-    Ogre::Vector3 translate(camera_direction.x * character_movement.y, 0, camera_direction.y * character_movement.y);
-    translate = Ogre::Vector3(translate.x + camera_direction.y * character_movement.x, 0, translate.z - camera_direction.x * character_movement.x);
-    translate = translate.normalisedCopy();
-    translate = translate * walking_speed_;
-
-    // Keep player facing away from the camera
-    rotation_ = (GetRotation(Ogre::Vector3(camera_direction.x, 0, camera_direction.y)) + Ogre::Radian(Ogre::Math::PI)).valueRadians();
-
-    Move(translate, rotation_, delta_time);
-
-    if (!translate.isZeroLength())
-    {
-        SetRunAnimationLoop();
-    }
-    else
-    {
-        SetIdleAnimationLoop();
-    }
-    animation_state_base_->addTime(delta_time);
-    animation_state_top_->addTime(delta_time);
-}

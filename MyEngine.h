@@ -7,7 +7,6 @@
 
 #include "PlayerAvatar.h"
 #include "RoamingCamera.h"
-#include "InputManager.h"
 
 class MyEngine : public OgreBites::ApplicationContext, public OgreBites::InputListener
 {
@@ -20,7 +19,6 @@ public:
 
 private:
     void setupSceneManager();
-    void setupInputManager();
     void setupCamera();
     void populateScene();
     Ogre::SceneManager* scene_manager_{};
@@ -28,7 +26,6 @@ private:
 
     std::unique_ptr<PlayerAvatar> player_{};
     std::unique_ptr<RoamingCamera> roaming_camera_{};
-    std::unique_ptr<InputManager> input_manager_;
 };
 
 

@@ -16,7 +16,7 @@ SwirlEffect::SwirlEffect(SceneNode *scene_node, Ogre::Vector3 cylindrical_veloci
     cylindrical_velocity_vector_ = cylindrical_velocity_vector;
     start_cylindrical_pos_ = {0, 0, 0};
     current_cylindrical_pos_ = start_cylindrical_pos_;
-    end_cylindrical_pos_ = {10, 1, 0};
+    end_cylindrical_pos_ = {10, 15, 0};
     effect_running_ = false;
     effect_finished_ = false;
 }
@@ -41,7 +41,7 @@ void SwirlEffect::update(float delta_time) {
         }
         else
         {
-            current_cylindrical_pos_ = current_cylindrical_pos_ + delta_time * 0.5 * cylindrical_velocity_vector_;
+            current_cylindrical_pos_ = current_cylindrical_pos_ + delta_time * cylindrical_velocity_vector_;
             scene_node_->setPosition(getCartesian() + center_pos_);
         }
     }
