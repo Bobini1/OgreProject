@@ -51,9 +51,9 @@ bool PickupObject::collidesWith(SceneNode *other_node, float distance) {
     return collision;
 }
 
-void PickupObject::runPickupEffect() {
+void PickupObject::runPickupEffect(const char* soundName) {
     // TODO: Instantiate and run the effect here (try velocity (5.0, -5, 50.0)
-    pickup_effect_ = new SoundEffect(sounds::FFmpegOpenALSound("/home/bobini/Pulpit/07 - 日溜りの街.flac"));
+    pickup_effect_ = new SoundEffect(sounds::FFmpegOpenALSound(SoundManager::getSoundObjectPtr(soundName)));
     pickup_effect_->run();
 
     picked_up_ = true;

@@ -2,6 +2,7 @@
 #include "IPickupObject.h"
 #include "IPickupEffect.h"
 #include "SwirlEffect.h"
+#include "SoundManager.h"
 
 using namespace Ogre;
 using namespace OgreBites;
@@ -24,7 +25,7 @@ public:
 	IPickupEffect* getPickupEffect() const;                   // Returns the pickup effect attached to this object
 	bool isPickedUp();                                        // True if the pickup effect has been run
 
-	void runPickupEffect();                                   // Display a special motion effect on the game object
+	void runPickupEffect(const char* soundName);                                   // Display a special motion effect on the game object
 	bool collidesWith(SceneNode* other_node, float distance); // True if the passed node is within distance of this object
 	void update(float delta_time) const;                      // Updates object, including any running motion effects
 

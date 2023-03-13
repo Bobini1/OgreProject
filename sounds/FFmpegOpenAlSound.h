@@ -4,6 +4,8 @@
 
 #ifndef OGREPROJECT_FFMPEGOPENALSOUND_H
 #define OGREPROJECT_FFMPEGOPENALSOUND_H
+#include "../SoundObject.h"
+#include "HelperFunctions.h"
 #include <AL/al.h>
 #include <vector>
 #include <optional>
@@ -17,6 +19,7 @@ class FFmpegOpenALSound
 
   public:
     explicit FFmpegOpenALSound(const char* filename);
+    FFmpegOpenALSound(std::shared_ptr<SoundObject>& soundObject);
     FFmpegOpenALSound(const FFmpegOpenALSound& other);
     FFmpegOpenALSound(FFmpegOpenALSound&& other) noexcept;
     auto operator=(const FFmpegOpenALSound& other) -> FFmpegOpenALSound&;

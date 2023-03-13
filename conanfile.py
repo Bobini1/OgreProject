@@ -22,3 +22,4 @@ class Recipe(ConanFile):
         self.options["ffmpeg"].postproc = False
         self.options["ffmpeg"].with_libfdk_aac = False
         self.options["ffmpeg"].with_openjpeg = False
+        self.options

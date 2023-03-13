@@ -4,6 +4,7 @@
 
 #include "MyEngine.h"
 #include "PickupManager.h"
+#include "SoundManager.h"
 
 MyEngine::MyEngine() : OgreBites::ApplicationContext("T-637-GEDE Lab 3")
 {
@@ -44,6 +45,10 @@ void MyEngine::populateScene() {
     player_ = std::make_unique<PlayerAvatar>(scene_manager_, "Sinbad.mesh");
     PickupManager::initialize(scene_manager_, player_->entity_node_);
     PickupManager::addPickupObject("Suzanne.mesh");
+    // Add music
+    SoundManager::initialize();
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruh.mp3", "bruh");
+    SoundManager::addSoundObject("/home/kajtekk/Music/coldplay-yellow.mp3", "coldplay-yellow");
     // Add Ground
     auto plane = Ogre::Plane(Ogre::Vector3::UNIT_Y, -5);
     auto groundMesh = Ogre::MeshManager::getSingleton()
