@@ -89,9 +89,9 @@ void PickupManager::Update(Ogre::Real delta_time, const Uint8 *state) {
 
             scene_manager_->getRootSceneNode()->removeChild(pickupObject->getSceneNode());
             player_node_->addChild(pickupObject->getSceneNode());
-            pickupObject->getSceneNode()->setPosition(0, 0, 0);
             pickupObject->runPickupEffect("bruh");
             pickupObject->runPickupEffect("coldplay-yellow");
+            pickupObject->getSceneNode()->setPosition(0, 0, 0);
             addPickupObject("Suzanne.mesh");
         }
         if (pickupObject->isPickedUp())

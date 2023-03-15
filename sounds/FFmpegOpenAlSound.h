@@ -19,7 +19,7 @@ class FFmpegOpenALSound
 
   public:
     explicit FFmpegOpenALSound(const char* filename);
-    FFmpegOpenALSound(std::shared_ptr<SoundObject>& soundObject);
+    FFmpegOpenALSound(std::shared_ptr<SoundObject>& soundObject, float x, float y, float z);
     FFmpegOpenALSound(const FFmpegOpenALSound& other);
     FFmpegOpenALSound(FFmpegOpenALSound&& other) noexcept;
     auto operator=(const FFmpegOpenALSound& other) -> FFmpegOpenALSound&;

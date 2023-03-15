@@ -40,10 +40,13 @@ void SoundManager::addSoundObject(const char* filePath, const char* name){
 std::shared_ptr<SoundObject>& SoundManager::getSoundObjectPtr(const char* name){
     for(auto& soundObject: soundObjects){
         if(soundObject->getName() == name){
-            std::cout << "sound: " << soundObject->getName() << " was found" << std::endl;
             return soundObject;
         }
     }
+}
+
+void SoundManager::updateListenerPosition(float x, float y, float z){
+    alListener3f(AL_POSITION, x, y, z);
 }
 
 bool SoundManager::_initialize() {

@@ -50,9 +50,9 @@ SoundObject::SoundObject(const char* filePath, const char* name)
     // load samples into openal
     alGenBuffers(1, &m_buffer);
     sampleBuffer = std::shared_ptr<ALuint>(new ALuint(m_buffer), deleteBuffer);
-
+    //AL_FORMAT_MONO_FLOAT32
     alBufferData(m_buffer,
-                 getALFormat(format, codecContext->channels),
+                 AL_FORMAT_STEREO_FLOAT32,
                  samples.data(),
                  static_cast<ALsizei>(samples.size()),
                  codecContext->sample_rate);

@@ -3,6 +3,8 @@
 //
 
 #include "PlayerAvatar.h"
+#include "SoundManager.h"
+#include <AL/al.h>
 
 PlayerAvatar::PlayerAvatar(Ogre::SceneManager* scene_manager, const Ogre::String& mesh_file_name) {
     scene_manager_ = scene_manager;
@@ -15,6 +17,11 @@ PlayerAvatar::PlayerAvatar(Ogre::SceneManager* scene_manager, const Ogre::String
     entity_->attachObjectToBone("Handle.L", sword);
     auto* sword2 = scene_manager_->createEntity("Sword.mesh");
     entity_->attachObjectToBone("Handle.R", sword2);
+    float x = entity_node_->getPosition().x;
+    float y = entity_node_->getPosition().y;
+    float z = entity_node_->getPosition().z;
+    alListener3f(AL_POSITION, x, y, z);
+    alListener3f(AL_VELOCITY, 0, 0, 0);
 }
 
 void PlayerAvatar::Move(Ogre::Vector3 translate_vector, float rotation, Ogre::Real delta_time) {
@@ -98,6 +105,10 @@ void PlayerAvatar::Update(Ogre::Real delta_time, const Uint8* state)
     }
 
     Move(translate_vector, rotation_, delta_time);
+
+    std::cout << "Player: " << entity_node_->getPosition() << std::endl;
+
+    SoundManager::updateListenerPosition(entity_node_->getPosition().x, entity_node_->getPosition().y, entity_node_->getPosition().z);
 
     if (!translate_vector.isZeroLength())
     {

@@ -66,11 +66,14 @@ sounds::FFmpegOpenALSound::FFmpegOpenALSound(const char* filename)
     alGenSources(1, &source);
     alSourcei(source, AL_BUFFER, static_cast<ALint>(buffer));
 }
-sounds::FFmpegOpenALSound::FFmpegOpenALSound(std::shared_ptr<SoundObject>& soundObject){
+sounds::FFmpegOpenALSound::FFmpegOpenALSound(std::shared_ptr<SoundObject>& soundObject, float x, float y, float z){
     ALuint buffer = soundObject->getBuffer();
     sampleBuffer = soundObject->getSampleBuffer();
-    std::cout << "buffer received" << std::endl;
     alGenSources(1, &source);
+    alSourcef(source, AL_PITCH, 1);
+    alSourcef(source, AL_GAIN, 1.0f);
+    alSource3f(source, AL_POSITION, x, y, z);
+    alSource3f(source, AL_VELOCITY, 0, 0, 0);
     alSourcei(source, AL_BUFFER, static_cast<ALint>(buffer));
 }
 sounds::FFmpegOpenALSound::~FFmpegOpenALSound()

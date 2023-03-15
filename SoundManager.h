@@ -14,6 +14,7 @@ class SoundManager : public Ogre::Singleton<SoundManager>{
         static SoundManager* getSingletonPtr();
         static void addSoundObject(const char* filePath, const char* name);
         static std::shared_ptr<SoundObject>& getSoundObjectPtr(const char* name);
+        static void updateListenerPosition(float x, float y, float z);
     private:
         static std::list<std::shared_ptr<SoundObject>> soundObjects;
         SoundManager();
