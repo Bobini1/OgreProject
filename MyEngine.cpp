@@ -47,8 +47,8 @@ void MyEngine::populateScene() {
     PickupManager::addPickupObject("Suzanne.mesh");
     // Add music
     SoundManager::initialize();
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruh.mp3", "bruh");
-    SoundManager::addSoundObject("/home/kajtekk/Music/coldplay-yellow.mp3", "coldplay-yellow");
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruh");
+    //SoundManager::addSoundObject("/home/kajtekk/Music/coldplay-yellowMONO.mp3", "coldplay-yellow");
     // Add Ground
     auto plane = Ogre::Plane(Ogre::Vector3::UNIT_Y, -5);
     auto groundMesh = Ogre::MeshManager::getSingleton()

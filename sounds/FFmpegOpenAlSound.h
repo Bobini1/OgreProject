@@ -15,6 +15,8 @@ namespace sounds {
 class FFmpegOpenALSound
 {
     ALuint source{};
+    ALuint effect{};
+    ALuint slot{};
     std::shared_ptr<const ALuint> sampleBuffer;
 
   public:
@@ -29,6 +31,7 @@ class FFmpegOpenALSound
     void play();
     void stop();
     void pause();
+    void loadEchoEffect();
     void setVolume(float volume);
     void setIsLooping(bool looping);
     void setRate(float rate);

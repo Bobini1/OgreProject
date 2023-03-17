@@ -106,8 +106,6 @@ void PlayerAvatar::Update(Ogre::Real delta_time, const Uint8* state)
 
     Move(translate_vector, rotation_, delta_time);
 
-    std::cout << "Player: " << entity_node_->getPosition() << std::endl;
-
     SoundManager::updateListenerPosition(entity_node_->getPosition().x, entity_node_->getPosition().y, entity_node_->getPosition().z);
 
     if (!translate_vector.isZeroLength())

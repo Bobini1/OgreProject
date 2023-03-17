@@ -7,16 +7,12 @@ getALFormat(AVSampleFormat AVFormat, int channels) -> ALenum
         case 1:
             switch (AVFormat) {
                 case AV_SAMPLE_FMT_U8:
-                    std::cout << "AL_FORMAT_MONO8" << std::endl;
                     return AL_FORMAT_MONO8;
                 case AV_SAMPLE_FMT_S16:
-                    std::cout << "AL_FORMAT_MONO16" << std::endl;
                     return AL_FORMAT_MONO16;
                 case AV_SAMPLE_FMT_FLT:
-                    std::cout << "AL_FORMAT_MONO_FLOAT32" << std::endl;
                     return AL_FORMAT_MONO_FLOAT32;
                 case AV_SAMPLE_FMT_DBL:
-                    std::cout << "AL_FORMAT_MONO_DOUBLE_EXT" << std::endl;
                     return AL_FORMAT_MONO_DOUBLE_EXT;
                 default:
                     throw std::runtime_error("Unsupported format");
@@ -24,16 +20,12 @@ getALFormat(AVSampleFormat AVFormat, int channels) -> ALenum
         case 2:
             switch (AVFormat) {
                 case AV_SAMPLE_FMT_U8:
-                    std::cout << "AL_FORMAT_STEREO8" << std::endl;
                     return AL_FORMAT_STEREO8;
                 case AV_SAMPLE_FMT_S16:
-                    std::cout << "AL_FORMAT_STEREO16" << std::endl;
                     return AL_FORMAT_STEREO16;
                 case AV_SAMPLE_FMT_FLT:
-                    std::cout << "AL_FORMAT_STEREO_FLOAT32" << std::endl;
                     return AL_FORMAT_STEREO_FLOAT32;
                 case AV_SAMPLE_FMT_DBL:
-                    std::cout << "AL_FORMAT_STEREO_DOUBLE_EXT" << std::endl;
                     return AL_FORMAT_STEREO_DOUBLE_EXT;
                 default:
                     throw std::runtime_error("Unsupported format");
@@ -95,7 +87,6 @@ decodeFile(AVFormatContext& formatContext,
     const auto bytesPerSample =
       static_cast<size_t>(av_get_bytes_per_sample(codecContext.sample_fmt));
     const auto channels = static_cast<size_t>(codecContext.channels);
-
     std::vector<unsigned char> samples;
     std::unique_ptr<AVPacket, decltype(&deletePacket)> packet = {
         av_packet_alloc(), &deletePacket
@@ -136,3 +127,10 @@ getALContext() -> ALCcontext*
         alcCreateContext(getALDevice(), nullptr), &alcDestroyContext);
     return context.get();
 }
+
+LPALGENEFFECTS myAlGenEffects=(LPALGENEFFECTS)  alGetProcAddress("alGenEffects");
+LPALGENAUXILIARYEFFECTSLOTS myAlGenAuxiliaryEffectSlots=(LPALGENAUXILIARYEFFECTSLOTS)  alGetProcAddress("alGenAuxiliaryEffectSlots");
+LPALAUXILIARYEFFECTSLOTI myAlAuxiliaryEffectSloti=(LPALAUXILIARYEFFECTSLOTI)  alGetProcAddress("alAuxiliaryEffectSloti");
+LPALEFFECTI myAlEffecti=(LPALEFFECTI)  alGetProcAddress("alEffecti");
+LPALISEFFECT myAlIsEffect=(LPALISEFFECT)  alGetProcAddress("alIsEffect");
+LPALDELETEEFFECTS myAlDeleteEffects=(LPALDELETEEFFECTS)  alGetProcAddress("alDeleteEffects");
