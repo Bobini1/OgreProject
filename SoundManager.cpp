@@ -33,8 +33,8 @@ SoundManager* SoundManager::getSingletonPtr() {
     return msSingleton;
 }
 
-void SoundManager::addSoundObject(const char* filePath, const char* name){
-    soundObjects.push_back(std::make_shared<SoundObject>(filePath, name));
+void SoundManager::addSoundObject(const char* filePath, const char* name, bool isEffect, Effect effect){
+    soundObjects.push_back(std::make_shared<SoundObject>(filePath, name, isEffect, effect));
 }
 
 std::shared_ptr<SoundObject>& SoundManager::getSoundObjectPtr(const char* name){

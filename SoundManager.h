@@ -12,7 +12,7 @@ class SoundManager : public Ogre::Singleton<SoundManager>{
         static void destroy();
         static SoundManager& getSingleton();
         static SoundManager* getSingletonPtr();
-        static void addSoundObject(const char* filePath, const char* name);
+        static void addSoundObject(const char* filePath, const char* name, bool isEffect, Effect effect=Effect::NONE);
         static std::shared_ptr<SoundObject>& getSoundObjectPtr(const char* name);
         static void updateListenerPosition(float x, float y, float z);
     private:

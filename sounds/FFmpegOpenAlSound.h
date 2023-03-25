@@ -17,11 +17,14 @@ class FFmpegOpenALSound
     ALuint source{};
     ALuint effect{};
     ALuint slot{};
+    ALuint buffer{};
+    bool isEffect;
     std::shared_ptr<const ALuint> sampleBuffer;
 
   public:
     explicit FFmpegOpenALSound(const char* filename);
     FFmpegOpenALSound(std::shared_ptr<SoundObject>& soundObject, float x, float y, float z);
+    FFmpegOpenALSound(std::shared_ptr<SoundObject>& soundObject);
     FFmpegOpenALSound(const FFmpegOpenALSound& other);
     FFmpegOpenALSound(FFmpegOpenALSound&& other) noexcept;
     auto operator=(const FFmpegOpenALSound& other) -> FFmpegOpenALSound&;
@@ -36,6 +39,7 @@ class FFmpegOpenALSound
     void setIsLooping(bool looping);
     void setRate(float rate);
     void setTimePoint(std::chrono::nanoseconds offset);
+    void updatePosition(float x, float y, float z);
 
     auto isPlaying() const -> bool;
     auto isPaused() const -> bool;

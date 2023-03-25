@@ -1,6 +1,7 @@
 #pragma once
 #include "OgreSingleton.h"
 #include "PickupObject.h"
+#include "SoundObject.h"
 #include <iostream>
 #include <random>
 
@@ -42,7 +43,8 @@ class PickupManager : public Singleton<PickupManager>
         static SceneManager* scene_manager_;
         static SceneNode* player_node_;
         static std::list<IPickupObject*> pickup_objects;
-
+        static Effect effect;
+        //static int dupa;
         /** Class default constructor */
         PickupManager();
 

@@ -16,8 +16,8 @@ extern "C" {
 
 #define MAX_AUDIO_FRAME_SIZE 192000
 
-SoundObject::SoundObject(const char* filePath, const char* name)
-    : m_name(name)
+SoundObject::SoundObject(const char* filePath, const char* name, bool isEffect, Effect effect)
+    : m_name(name), m_isEffect(isEffect)
 {
     auto* formatContext = avformat_alloc_context();
     if (avformat_open_input(&formatContext, filePath, nullptr, nullptr)) {
@@ -59,37 +59,82 @@ SoundObject::SoundObject(const char* filePath, const char* name)
                  samples.data(),
                  static_cast<ALsizei>(samples.size()),
                  codecContext->sample_rate);
+    
+    if(m_isEffect){
+        if (alcIsExtensionPresent(getALDevice(), "ALC_EXT_EFX") == AL_FALSE){
+            throw;
+        }
+        m_effect = 0;
+        ALenum err;
 
-    std::cout << "echoE" << std::endl;
-    if (alcIsExtensionPresent(getALDevice(), "ALC_EXT_EFX") == AL_FALSE){
-        std::cout << "wrong" << std::endl;
+        /* Create the effect object and set the echo type. */
+        myAlGenEffects(1, &m_effect);   
+        switch (effect){
+            case Effect::NONE:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_NULL);
+                break;
+            case Effect::EAXREVERB:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
+                break;
+            case Effect::REVERB:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_REVERB);
+                break;
+            case Effect::CHORUS:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
+                break;
+            case Effect::DISTORTION:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
+                break;
+            case Effect::ECHO:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_ECHO);
+                break;
+            case Effect::FLANGER:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_FLANGER);
+                break;
+            case Effect::FREQUENCY_SHIFTER:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_FREQUENCY_SHIFTER);
+                break;
+            case Effect::VOCAL_MORPHER:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_VOCAL_MORPHER);
+                break;
+            case Effect::PITCH_SHIFTER:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_PITCH_SHIFTER);
+                break;
+            case Effect::RING_MODULATOR:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_RING_MODULATOR);
+                break;
+            case Effect::AUTOWAH:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_AUTOWAH);
+                break;
+            case Effect::COMPRESSOR:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_COMPRESSOR);
+                break;
+            case Effect::EQUALIZER:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
+                break;
+            default:
+                myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_NULL);
+                break;
+        }
+
+        /* Check if an error occured, and clean up if so. */
+        err = alGetError();
+        if(err != AL_NO_ERROR)
+        {
+            fprintf(stderr, "OpenAL error: %s\n", alGetString(err));
+            if(myAlIsEffect(m_effect))
+                myAlDeleteEffects(1, &m_effect);
+        }
+
+        m_slot = 0;
+        myAlGenAuxiliaryEffectSlots(1, &m_slot);
+        /* Tell the effect slot to use the loaded effect object. Note that the this
+        * effectively copies the effect properties. You can modify or delete the
+        * effect object afterward without affecting the effect slot.
+        */
+        myAlAuxiliaryEffectSloti(m_slot, AL_EFFECTSLOT_EFFECT, (ALint)m_effect);
+        assert(alGetError()==AL_NO_ERROR && "Failed to set effect slot");
     }
-    m_effect = 0;
-    ALenum err;
-
-    /* Create the effect object and set the echo type. */
-    myAlGenEffects(1, &m_effect);
-    myAlEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_ECHO);
-
-    /* Check if an error occured, and clean up if so. */
-    err = alGetError();
-    if(err != AL_NO_ERROR)
-    {
-        fprintf(stderr, "OpenAL error: %s\n", alGetString(err));
-        if(myAlIsEffect(m_effect))
-            myAlDeleteEffects(1, &m_effect);
-    }
-
-    m_slot = 0;
-    myAlGenAuxiliaryEffectSlots(1, &m_slot);
-    /* Tell the effect slot to use the loaded effect object. Note that the this
-     * effectively copies the effect properties. You can modify or delete the
-     * effect object afterward without affecting the effect slot.
-     */
-    myAlAuxiliaryEffectSloti(m_slot, AL_EFFECTSLOT_EFFECT, (ALint)m_effect);
-    assert(alGetError()==AL_NO_ERROR && "Failed to set effect slot");
-
-    std::cout << "echoE end" << std::endl;
 
     avcodec_close(codecContext);
     avformat_close_input(&formatContext);

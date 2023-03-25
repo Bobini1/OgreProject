@@ -70,36 +70,37 @@ sounds::FFmpegOpenALSound::FFmpegOpenALSound(const char* filename)
     alSourcei(source, AL_BUFFER, static_cast<ALint>(buffer));
 }
 sounds::FFmpegOpenALSound::FFmpegOpenALSound(std::shared_ptr<SoundObject>& soundObject, float x, float y, float z){
-    ALuint buffer = soundObject->getBuffer();
+    buffer = soundObject->getBuffer();
     sampleBuffer = soundObject->getSampleBuffer();
-    effect = soundObject->getEffect();
-    slot = soundObject->getSlot();
+    isEffect = soundObject->getIsEffect();
     alGenSources(1, &source);
     alSourcef(source, AL_PITCH, 1);
     alSourcef(source, AL_GAIN, 1.0f);
     alSource3f(source, AL_POSITION, x, y, z);
     alSource3f(source, AL_VELOCITY, 0, 0, 0);
     alSourcei(source, AL_BUFFER, static_cast<ALint>(buffer));
-    /* Load the reverb into an effect. */
-    // ALuint effect = loadEchoEffect();
-    // if(!effect)
-    // {
-    //     alDeleteBuffers(1, &buffer);
-    //     //CloseAL();
-    //     return;
-    // }
-    /* Create the effect slot object. This is what "plays" an effect on sources
-     * that connect to it. */
-    // ALuint slot = 0;
-    // myAlGenAuxiliaryEffectSlots(1, &slot);
-    // /* Tell the effect slot to use the loaded effect object. Note that the this
-    //  * effectively copies the effect properties. You can modify or delete the
-    //  * effect object afterward without affecting the effect slot.
-    //  */
-    // myAlAuxiliaryEffectSloti(slot, AL_EFFECTSLOT_EFFECT, (ALint)effect);
-    // assert(alGetError()==AL_NO_ERROR && "Failed to set effect slot");
-    alSource3i(source, AL_AUXILIARY_SEND_FILTER, (ALint)slot, 0, AL_FILTER_NULL);
-    //assert(alGetError()==AL_NO_ERROR && "Failed to setup sound source");
+    if(isEffect){
+        effect = soundObject->getEffect();
+        slot = soundObject->getSlot();
+        alSource3i(source, AL_AUXILIARY_SEND_FILTER, (ALint)slot, 0, AL_FILTER_NULL);
+    }
+}
+sounds::FFmpegOpenALSound::FFmpegOpenALSound(std::shared_ptr<SoundObject>& soundObject){
+    buffer = soundObject->getBuffer();
+    sampleBuffer = soundObject->getSampleBuffer();
+    isEffect = soundObject->getIsEffect();
+    alGenSources(1, &source);
+    alSourcef(source, AL_PITCH, 1);
+    alSourcef(source, AL_GAIN, 1.0f);
+    alSourcei(source, AL_BUFFER, static_cast<ALint>(buffer));
+    if(isEffect){
+        effect = soundObject->getEffect();
+        slot = soundObject->getSlot();
+        alSource3i(source, AL_AUXILIARY_SEND_FILTER, (ALint)slot, 0, AL_FILTER_NULL);
+    }
+}
+void sounds::FFmpegOpenALSound::updatePosition(float x, float y, float z){
+    alSource3f(source, AL_POSITION, x, y, z);
 }
 sounds::FFmpegOpenALSound::~FFmpegOpenALSound()
 {
@@ -167,29 +168,7 @@ sounds::FFmpegOpenALSound::play()
 {
     alSourcePlay(source);
 }
-void sounds::FFmpegOpenALSound::loadEchoEffect(){
-    std::cout << "echoE" << std::endl;
-    if (alcIsExtensionPresent(getALDevice(), "ALC_EXT_EFX") == AL_FALSE){
-        std::cout << "wrong" << std::endl;
-    }
-    effect = 0;
-    ALenum err;
 
-    /* Create the effect object and set the echo type. */
-    myAlGenEffects(1, &effect);
-    myAlEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_ECHO);
-
-    /* Check if an error occured, and clean up if so. */
-    err = alGetError();
-    if(err != AL_NO_ERROR)
-    {
-        fprintf(stderr, "OpenAL error: %s\n", alGetString(err));
-        if(myAlIsEffect(effect))
-            myAlDeleteEffects(1, &effect);
-    }
-
-    std::cout << "echoE end" << std::endl;
-}
 void
 sounds::FFmpegOpenALSound::setVolume(float volume)
 {

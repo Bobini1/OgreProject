@@ -6,6 +6,8 @@ template<> PickupManager *Ogre::Singleton<PickupManager>::msSingleton = 0;
 SceneManager *PickupManager::scene_manager_;
 SceneNode *PickupManager::player_node_;
 std::list<IPickupObject *> PickupManager::pickup_objects;
+Effect PickupManager::effect;
+//int PickupManager::dupa;
 
 PickupManager::PickupManager() = default;
 
@@ -39,9 +41,10 @@ PickupManager *PickupManager::getSingletonPtr() {
 
 /** This function spawns a new pickup object at a random position near the player */
 void PickupManager::addPickupObject(const char *mesh_file_name) {
+    // static int i = 0;
     random_device rd;                           // obtain a random number from hardware
     mt19937 gen(rd());                          // seed the generator
-    uniform_real_distribution<> distr(-50, 50); // define the range
+    uniform_real_distribution<> distr(-10, 10); // define the range
 
     // Create a new pickup Objhe user is also cautioned that this function only erases the element, and that if the element is itself a pointer, the ect in a random position near the player
     Ogre::Vector3 playerPosition = player_node_->getPosition();
@@ -49,7 +52,7 @@ void PickupManager::addPickupObject(const char *mesh_file_name) {
     Real randomZOffset = distr(gen);
     Ogre::Vector3 newSpawnPosition = Ogre::Vector3(playerPosition.x + randomXOffset, -3.0f,
                                                    playerPosition.z + randomZOffset);
-    auto *pickupObject = new PickupObject(scene_manager_, mesh_file_name, newSpawnPosition);
+    auto *pickupObject = new PickupObject(scene_manager_, mesh_file_name, newSpawnPosition/*Ogre::Vector3(i, 0, 0)*/);
     pickupObject->getEntity()->getMesh()->getSubMesh(0)->getMaterialName();
 
 
@@ -70,6 +73,7 @@ void PickupManager::addPickupObject(const char *mesh_file_name) {
 
     // Insert the new Pickup Object in the list of managed objects
     pickup_objects.push_back(pickupObject);
+    // i += 10;
 }
 
 void PickupManager::Update(Ogre::Real delta_time, const Uint8 *state) {
@@ -89,7 +93,56 @@ void PickupManager::Update(Ogre::Real delta_time, const Uint8 *state) {
 
             scene_manager_->getRootSceneNode()->removeChild(pickupObject->getSceneNode());
             player_node_->addChild(pickupObject->getSceneNode());
-            pickupObject->runPickupEffect("bruh");
+            //static Effect effect = Effect::NONE;
+            switch (effect){
+                case Effect::NONE:
+                    pickupObject->runPickupEffect("bruhNONE");
+                    break;
+                case Effect::EAXREVERB:
+                    pickupObject->runPickupEffect("bruhEAXREVERB");
+                    break;
+                case Effect::REVERB:
+                    pickupObject->runPickupEffect("bruhREVERB");
+                    break;
+                case Effect::CHORUS:
+                    pickupObject->runPickupEffect("bruhCHORUS");
+                    break;
+                case Effect::DISTORTION:
+                    pickupObject->runPickupEffect("bruhDISTORTION");
+                    break;
+                case Effect::ECHO:
+                    pickupObject->runPickupEffect("bruhECHO");
+                    break;
+                case Effect::FLANGER:
+                    pickupObject->runPickupEffect("bruhFLANGER");
+                    break;
+                case Effect::FREQUENCY_SHIFTER:
+                    pickupObject->runPickupEffect("bruhFREQUENCY_SHIFTER");
+                    break;
+                case Effect::VOCAL_MORPHER:
+                    pickupObject->runPickupEffect("bruhVOCAL_MORPHER");
+                    break;
+                case Effect::PITCH_SHIFTER:
+                    pickupObject->runPickupEffect("bruhPITCH_SHIFTER");
+                    break;
+                case Effect::RING_MODULATOR:
+                    pickupObject->runPickupEffect("bruhRING_MODULATOR");
+                    break;
+                case Effect::AUTOWAH:
+                    pickupObject->runPickupEffect("bruhAUTOWAH");
+                    break;
+                case Effect::COMPRESSOR:
+                    pickupObject->runPickupEffect("bruhCOMPRESSOR");
+                    break;
+                case Effect::EQUALIZER:
+                    pickupObject->runPickupEffect("bruhEQUALIZER");
+                    break;
+                default:
+                    pickupObject->runPickupEffect("bruhNONE");
+                    break;
+            }
+            
+            effect = static_cast<Effect>((static_cast<int>(effect) + 1) % 14);
             pickupObject->getSceneNode()->setPosition(0, 0, 0);
             addPickupObject("Suzanne.mesh");
         }
@@ -119,7 +172,6 @@ bool PickupManager::_initialize(SceneManager *sceneManager, SceneNode *playerNod
     // Do here initialization stuff if needed
     scene_manager_ = sceneManager;
     player_node_ = playerNode;
-
     return true;
 }
 

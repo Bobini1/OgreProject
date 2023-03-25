@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 project(OgreProject)
 
-add_executable(LabsOgre main.cpp MyEngine.cpp MyEngine.h PlayerAvatar.cpp PlayerAvatar.h RoamingCamera.cpp RoamingCamera.h PickupManager.cpp PickupManager.h IPickupObject.h IPickupEffect.h IPickupObject.h SwirlEffect.cpp SwirlEffect.h PickupObject.h PickupObject.cpp ParticleEffect.h ParticleEffect.cpp sounds/FFmpegOpenAlSound.h sounds/FFmpegOpenAlSound.cpp sounds/FFmpegOpenAlSound.h sounds/FFmpegOpenAlSound.cpp sounds/HelperFunctions.h sounds/HelperFunctions.cpp SoundEffect.h SoundEffect.cpp SoundManager.h SoundManager.cpp SoundObject.h SoundObject.cpp)
+add_executable(LabsOgre main.cpp MyEngine.cpp MyEngine.h PlayerAvatar.cpp PlayerAvatar.h RoamingCamera.cpp RoamingCamera.h PickupManager.cpp PickupManager.h IPickupObject.h IPickupEffect.h IPickupObject.h SwirlEffect.cpp SwirlEffect.h PickupObject.h PickupObject.cpp ParticleEffect.h ParticleEffect.cpp sounds/FFmpegOpenAlSound.h sounds/FFmpegOpenAlSound.cpp sounds/FFmpegOpenAlSound.h sounds/FFmpegOpenAlSound.cpp sounds/HelperFunctions.h sounds/HelperFunctions.cpp SoundEffect.h SoundEffect.cpp SoundManager.h SoundManager.cpp SoundObject.h SoundObject.cpp MovingObject.h MovingObject.cpp)
 
 find_package(OGRE REQUIRED)
 find_package(SDL2 REQUIRED)

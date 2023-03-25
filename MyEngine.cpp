@@ -33,6 +33,14 @@ bool MyEngine::keyPressed(const OgreBites::KeyboardEvent &evt) {
     {
         getRoot()->queueEndRendering();
     }
+    if (evt.keysym.sym == OgreBites::SDLK_LSHIFT)
+    {
+        if(moving_object_->getSoundEffect()->isRunning()){
+            moving_object_->getSoundEffect()->pause();
+        } else{
+            moving_object_->getSoundEffect()->run();
+        }
+    }
     return true;
 }
 
@@ -47,8 +55,23 @@ void MyEngine::populateScene() {
     PickupManager::addPickupObject("Suzanne.mesh");
     // Add music
     SoundManager::initialize();
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruh");
-    //SoundManager::addSoundObject("/home/kajtekk/Music/coldplay-yellowMONO.mp3", "coldplay-yellow");
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhNONE", true, Effect::NONE);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhEAXREVERB", true, Effect::EAXREVERB);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhREVERB", true, Effect::REVERB);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhCHORUS", true, Effect::CHORUS);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhDISTORTION", true, Effect::DISTORTION);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhECHO", true, Effect::ECHO);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhFLANGER", true, Effect::FLANGER);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhFREQUENCY_SHIFTER", true, Effect::FREQUENCY_SHIFTER);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhVOCAL_MORPHER", true, Effect::VOCAL_MORPHER);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhPITCH_SHIFTER", true, Effect::PITCH_SHIFTER);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhRING_MODULATOR", true, Effect::RING_MODULATOR);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhAUTOWAH", true, Effect::AUTOWAH);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhCOMPRESSOR", true, Effect::COMPRESSOR);
+    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhEQUALIZER", true, Effect::EQUALIZER);
+    SoundManager::addSoundObject("/home/kajtekk/Music/coldplay-yellowMONO.mp3", "coldplay-yellow", false);
+    // Add object moving in circle
+    moving_object_ = std::make_unique<MovingObject>(scene_manager_, "Suzanne.mesh", player_->entity_node_->getPosition(), Vector3(1, 1, 1), Vector3(0, 3, 3));
     // Add Ground
     auto plane = Ogre::Plane(Ogre::Vector3::UNIT_Y, -5);
     auto groundMesh = Ogre::MeshManager::getSingleton()
@@ -98,7 +121,7 @@ bool MyEngine::frameStarted(const Ogre::FrameEvent &evt)
     // Update any subsystems
     if (player_ != nullptr) player_->Update(delta_time, state);
     if (roaming_camera_ != nullptr) roaming_camera_->update(delta_time, state);
-
+    if (moving_object_ != nullptr) moving_object_->update(delta_time);
     // Update all the managed pickup objects
     PickupManager::Update(delta_time, state);
 

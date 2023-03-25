@@ -7,6 +7,7 @@
 
 #include "PlayerAvatar.h"
 #include "RoamingCamera.h"
+#include "MovingObject.h"
 
 class MyEngine : public OgreBites::ApplicationContext, public OgreBites::InputListener
 {
@@ -26,6 +27,7 @@ private:
 
     std::unique_ptr<PlayerAvatar> player_{};
     std::unique_ptr<RoamingCamera> roaming_camera_{};
+    std::unique_ptr<MovingObject> moving_object_{};
 };
 
 

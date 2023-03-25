@@ -15,11 +15,15 @@ public:
 
     void run() override;
 
+    void pause() override;
+
     void update(float delta_time) override;
 
     bool isRunning() override;
 
     bool isFinished() override;
+
+    void updatePosition(float x, float y, float z);
 private:
     sounds::FFmpegOpenALSound sound_effect_;
 };
