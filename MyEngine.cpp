@@ -55,21 +55,21 @@ void MyEngine::populateScene() {
     PickupManager::addPickupObject("Suzanne.mesh");
     // Add music
     SoundManager::initialize();
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhNONE", true, Effect::NONE);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhEAXREVERB", true, Effect::EAXREVERB);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhREVERB", true, Effect::REVERB);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhCHORUS", true, Effect::CHORUS);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhDISTORTION", true, Effect::DISTORTION);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhECHO", true, Effect::ECHO);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhFLANGER", true, Effect::FLANGER);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhFREQUENCY_SHIFTER", true, Effect::FREQUENCY_SHIFTER);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhVOCAL_MORPHER", true, Effect::VOCAL_MORPHER);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhPITCH_SHIFTER", true, Effect::PITCH_SHIFTER);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhRING_MODULATOR", true, Effect::RING_MODULATOR);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhAUTOWAH", true, Effect::AUTOWAH);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhCOMPRESSOR", true, Effect::COMPRESSOR);
-    SoundManager::addSoundObject("/home/kajtekk/Music/bruhMONO.mp3", "bruhEQUALIZER", true, Effect::EQUALIZER);
-    SoundManager::addSoundObject("/home/kajtekk/Music/coldplay-yellowMONO.mp3", "coldplay-yellow", false);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhNONE", true, Effect::NONE);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhEAXREVERB", true, Effect::EAXREVERB);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhREVERB", true, Effect::REVERB);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhCHORUS", true, Effect::CHORUS);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhDISTORTION", true, Effect::DISTORTION);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhECHO", true, Effect::ECHO);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhFLANGER", true, Effect::FLANGER);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhFREQUENCY_SHIFTER", true, Effect::FREQUENCY_SHIFTER);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhVOCAL_MORPHER", true, Effect::VOCAL_MORPHER);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhPITCH_SHIFTER", true, Effect::PITCH_SHIFTER);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhRING_MODULATOR", true, Effect::RING_MODULATOR);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhAUTOWAH", true, Effect::AUTOWAH);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhCOMPRESSOR", true, Effect::COMPRESSOR);
+    SoundManager::addSoundObject("music/bruh.mp3", "bruhEQUALIZER", true, Effect::EQUALIZER);
+    SoundManager::addSoundObject("music/coldplay-yellowMONO.mp3", "coldplay-yellow", false);
     // Add object moving in circle
     moving_object_ = std::make_unique<MovingObject>(scene_manager_, "Suzanne.mesh", player_->entity_node_->getPosition(), Vector3(1, 1, 1), Vector3(0, 3, 3));
     // Add Ground
